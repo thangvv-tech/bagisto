@@ -1,6 +1,7 @@
 services:
   web:
     image: nginx:latest # Using the default Nginx image with custom configuration.
+    container_name: bagisto-nginx-development
     volumes:
       # Mount the application code for live updates
       - ./:/var/www
@@ -30,6 +31,7 @@ services:
         XDEBUG_IDE_KEY: ${XDEBUG_IDE_KEY:-DOCKER}
         XDEBUG_LOG: /dev/stdout
         XDEBUG_LOG_LEVEL: 0
+    container_name: bagisto-php-fpm-development
     env_file:
       # Load the environment variables from the Bagisto application
       - .env
@@ -55,6 +57,7 @@ services:
         XDEBUG_IDE_KEY: ${XDEBUG_IDE_KEY:-DOCKER}
         XDEBUG_LOG: /dev/stdout
         XDEBUG_LOG_LEVEL: 0
+    container_name: bagisto-workspace-development
     user: 'root'
     ports:
       - '${VITE_PORT:-5173}:5173'
@@ -69,6 +72,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    container_name: bagisto-mysql-development
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     environment:
@@ -83,6 +87,7 @@ services:
       - bagisto-development
 
   redis:
+    container_name: bagisto-redis-development
     image: redis:alpine
     networks:
       - bagisto-development
